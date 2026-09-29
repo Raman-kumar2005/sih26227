@@ -1,0 +1,56 @@
+# ====================================================================
+# SIH 2026 Problem ID: 26227
+# Production Air-Gapped Backend Container (FastAPI + GDAL + PostGIS)
+# ====================================================================
+
+FROM python:3.11-slim-bullseye AS base
+
+# Prevent python from writing pyc and buffering stdout
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /app
+
+# Install system geospatial libraries (GDAL, GEOS, PROJ) and build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    gdal-bin \
+    libgdal-dev \
+    libgeos-dev \
+    libproj-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure GDAL compiler paths
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal \
+    C_INCLUDE_PATH=/usr/include/gdal
+
+# Copy requirements and install python packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir psycopg2-binary sqlalchemy geoalchemy2
+
+# Copy source code and configurations
+COPY backend /app/backend
+COPY ml /app/ml
+COPY config /app/config
+COPY data/index /app/data/index
+COPY data/db /app/data/db
+
+# Create non-root system user for Defense Air-Gap CIS Security Standard
+RUN useradd -u 1001 -m -s /bin/bash sih_analyst && \
+    mkdir -p /app/data/thumbs /app/data/derived && \
+    chown -R sih_analyst:sih_analyst /app
+
+USER sih_analyst
+
+EXPOSE 8000
+
+# Health check to ensure zero-downtime orchestration
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:8000/api/health || exit 1
+
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

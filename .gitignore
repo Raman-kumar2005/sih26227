@@ -18,4 +18,5 @@ frontend/node_modules/
 *.tmp
 dist/
 frontend/dist/
+data/cache/
 

@@ -1,0 +1,95 @@
+# ====================================================================
+# SIH 2026 Problem ID: 26227
+# Multi-Temporal Change Detection Platform
+# Production Air-Gapped Multi-Container Architecture (Docker Compose)
+# ====================================================================
+
+services:
+  # ------------------------------------------------------------------
+  # 1. PostGIS Geospatial Database (Offline GiST Indexed Storage)
+  # ------------------------------------------------------------------
+  db:
+    image: postgis/postgis:16-3.4-alpine
+    container_name: sih26227_postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sih_geodb
+      POSTGRES_USER: sih_analyst
+      POSTGRES_PASSWORD: defense2026
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+      - ./docker/01_init_postgis.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+      - ./docker/02_seed_data.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sih_analyst -d sih_geodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - airgap_network
+
+  # ------------------------------------------------------------------
+  # 2. FastAPI Intelligence Backend (PyTorch + GDAL + PostGIS)
+  # ------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: sih26227_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://sih_analyst:defense2026@db:5432/sih_geodb
+      PYTHONPATH: .
+      OLLAMA_HOST: http://host.docker.internal:11434
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./config:/app/config
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - airgap_network
+
+  # ------------------------------------------------------------------
+  # 3. React Frontend & Nginx Reverse Proxy
+  # ------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: sih26227_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5173:80"
+      - "80:80"
+    networks:
+      - airgap_network
+
+# --------------------------------------------------------------------
+# Air-Gapped Network & Persistent Storage
+# --------------------------------------------------------------------
+networks:
+  airgap_network:
+    driver: bridge
+
+volumes:
+  postgis_data:
+    driver: local

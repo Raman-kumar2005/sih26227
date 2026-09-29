@@ -1,0 +1,39 @@
+# ====================================================================
+# SIH 2026 Problem ID: 26227
+# Production Frontend Container (Vite + React + Nginx Alpine)
+# ====================================================================
+
+# Step 1: Multi-stage Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install dependencies
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+# Copy frontend source
+COPY frontend/ ./
+
+# Build production bundle
+RUN npm run build
+
+# Step 2: Production Nginx Server
+FROM nginx:alpine AS runner
+
+# Remove default nginx config
+RUN rm -rf /etc/nginx/conf.d/* /etc/nginx/nginx.conf
+
+# Copy custom reverse-proxy configuration
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+
+# Copy compiled static assets from builder
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose HTTP
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD wget -q --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
