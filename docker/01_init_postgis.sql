@@ -128,3 +128,25 @@ SELECT
 FROM changes c
 WHERE c.confidence >= 0.6
 ORDER BY c.confidence DESC, c.detected_date DESC;
+
+-- 9. Asynchronous Ingestion & Tiling Jobs Table
+CREATE TABLE IF NOT EXISTS ingestion_jobs (
+    job_id VARCHAR(64) PRIMARY KEY,
+    scene_name VARCHAR(255) NOT NULL,
+    aoi VARCHAR(100) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    progress INTEGER NOT NULL DEFAULT 0,
+    current_stage VARCHAR(100) DEFAULT 'Initialized',
+    total_tiles INTEGER DEFAULT 0,
+    processed_tiles INTEGER DEFAULT 0,
+    changes_detected INTEGER DEFAULT 0,
+    duration_sec DOUBLE PRECISION DEFAULT 0.0,
+    error_message TEXT,
+    result_summary JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_jobs_status ON ingestion_jobs (status);
+CREATE INDEX idx_jobs_created ON ingestion_jobs (created_at DESC);
+

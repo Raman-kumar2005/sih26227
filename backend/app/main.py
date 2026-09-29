@@ -12,9 +12,12 @@ from backend.app.services.retrieval import RetrievalService
 
 from backend.app.db.connection import get_sqlite, hash_password, is_postgis, get_db_status
 from backend.app.db.spatial import query_changes_spatial, get_spatial_summary
+from backend.app.services.ingestion_queue import submit_ingest_job, get_job, list_recent_jobs, cancel_job
 import secrets
+from typing import Optional
 
 conn = get_sqlite()
+
 
 
 app = FastAPI(title="SIH26227 Multi-Temporal Analysis API")
@@ -394,4 +397,97 @@ def get_provenance():
         "quality_gate": "0.80 usable fraction",
         "coregistration": "AROSICS Phase Correlation"
     }
+
+# ====================================================================
+# Asynchronous Ingestion & Tiling Pipeline Endpoints (Pillar 2)
+# ====================================================================
+
+class IngestSubmitRequest(BaseModel):
+    scene_name: str
+    aoi: str
+    file_path: Optional[str] = None
+
+@app.post("/api/ingest/submit")
+def submit_ingestion(req: IngestSubmitRequest):
+    job_id = submit_ingest_job(scene_name=req.scene_name, aoi=req.aoi, file_path=req.file_path)
+    return {
+        "status": "QUEUED",
+        "job_id": job_id,
+        "message": f"Scene '{req.scene_name}' submitted for background tiling & change detection."
+    }
+
+@app.post("/api/ingest/upload")
+async def upload_and_ingest(
+    file: UploadFile = File(...),
+    aoi: str = "delhi_airport",
+    scene_name: Optional[str] = None
+):
+    scene = scene_name or file.filename.replace(".tif", "").replace(".tiff", "")
+    os.makedirs("data/uploads", exist_ok=True)
+    save_path = os.path.join("data/uploads", file.filename)
+    with open(save_path, "wb") as buffer:
+        content = await file.read()
+        buffer.write(content)
+    
+    job_id = submit_ingest_job(scene_name=scene, aoi=aoi, file_path=save_path)
+    return {
+        "status": "QUEUED",
+        "job_id": job_id,
+        "filename": file.filename,
+        "message": f"Satellite scene uploaded ({len(content)/(1024*1024):.1f} MB) and queued for asynchronous processing."
+    }
+
+@app.get("/api/ingest/status/{job_id}")
+def get_ingestion_status(job_id: str):
+    job = get_job(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Ingestion job not found")
+    return job
+
+@app.get("/api/ingest/jobs")
+def get_recent_ingest_jobs(limit: int = 15):
+    return {"jobs": list_recent_jobs(limit=limit)}
+
+@app.post("/api/ingest/cancel/{job_id}")
+def cancel_ingest_job(job_id: str):
+    success = cancel_job(job_id)
+    return {"status": "CANCELLED" if success else "NOT_FOUND", "job_id": job_id}
+
+@app.get("/api/ingest/sample_scenes")
+def get_sample_scenes():
+    return {
+        "scenes": [
+            {
+                "id": "kashmir_sector4",
+                "name": "Kashmir LAC Sector 4 High-Altitude Pass",
+                "aoi": "delhi_airport",
+                "file_path": "data/kashmir_border_sentinel2.tif",
+                "size_mb": 205.6,
+                "sensor": "Sentinel-2 MSI",
+                "date": "2026-09-28",
+                "description": "Critical Himalayan border pass with potential forward infrastructure shifts."
+            },
+            {
+                "id": "tawang_ridge",
+                "name": "Arunachal Tawang Strategic Ridge T4 Pass",
+                "aoi": "assam_border",
+                "file_path": None,
+                "size_mb": 184.2,
+                "sensor": "Sentinel-2 MSI",
+                "date": "2026-09-29",
+                "description": "High mountain military surveillance quadrant with cloud masking verification."
+            },
+            {
+                "id": "bellandur_lake_basin",
+                "name": "Bellandur Catchment Encroachment Sector",
+                "aoi": "bangalore_lakes",
+                "file_path": None,
+                "size_mb": 142.0,
+                "sensor": "Sentinel-2 L2A",
+                "date": "2026-09-30",
+                "description": "Rapid wetland perimeter monitoring for unauthorized earthwork."
+            }
+        ]
+    }
+
 

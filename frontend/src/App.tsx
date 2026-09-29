@@ -4,6 +4,8 @@ import { MapView } from './components/MapView';
 import { EvidencePanel } from './components/EvidencePanel';
 import { Login } from './components/Login';
 import { Landing } from './components/Landing';
+import { IngestModal } from './components/IngestModal';
+import { Satellite } from 'lucide-react';
 import './index.css';
 
 function App() {
@@ -12,10 +14,12 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [threshold, setThreshold] = useState(0.5);
+  const [isIngestOpen, setIsIngestOpen] = useState(false);
   
   // Timeline controls state
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
 
   useEffect(() => {
     const handleImageSearchEvent = async (e: any) => {
@@ -197,6 +201,17 @@ function App() {
                       </span>
                   </div>
 
+                  {/* Satellite Pass Ingest Button */}
+                  <button
+                    onClick={() => setIsIngestOpen(true)}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-cyan-600/30 cursor-pointer border border-cyan-400/40 hover:scale-[1.02]"
+                    title="Launch Asynchronous Satellite Ingestion Engine"
+                  >
+                    <Satellite className="w-4 h-4 text-cyan-200 animate-pulse" />
+                    <span>Ingest Pass</span>
+                  </button>
+
+
                   {/* Active Analyst Profile Badge */}
                   {currentUser && (
                     <div className="flex items-center gap-2.5 bg-slate-800/90 border border-slate-700/80 px-3 py-1 rounded-xl shadow-inner">
@@ -258,6 +273,13 @@ function App() {
           />
         )}
       </div>
+
+      {/* Asynchronous Satellite Ingestion Engine Modal */}
+      <IngestModal 
+        isOpen={isIngestOpen} 
+        onClose={() => setIsIngestOpen(false)} 
+        onViewChanges={(aoi) => handleSearch(aoi)} 
+      />
     </div>
   );
 }

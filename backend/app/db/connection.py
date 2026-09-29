@@ -53,6 +53,25 @@ def init_sqlite_db():
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS ingestion_jobs (
+            job_id TEXT PRIMARY KEY,
+            scene_name TEXT NOT NULL,
+            aoi TEXT NOT NULL,
+            status TEXT NOT NULL,
+            progress INTEGER NOT NULL DEFAULT 0,
+            current_stage TEXT DEFAULT 'Initialized',
+            total_tiles INTEGER DEFAULT 0,
+            processed_tiles INTEGER DEFAULT 0,
+            changes_detected INTEGER DEFAULT 0,
+            duration_sec REAL DEFAULT 0.0,
+            error_message TEXT,
+            result_summary TEXT DEFAULT '{}',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
 
     # Seed Default Defense Analyst Accounts
     default_users = [
