@@ -1,0 +1,42 @@
+queries:
+  - id: "q1"
+    text: "newly built structures near a river"
+    expected_change_type: "construction"
+    expected_tile_ids: []  # USER ACTION REQUIRED: Add tile IDs here
+  - id: "q2"
+    text: "large vehicle concentrations on open ground"
+    expected_change_type: "any"
+    expected_tile_ids: []
+  - id: "q3"
+    text: "show vegetation clearance in Bangalore Lakes since 2023"
+    expected_change_type: "clearance"
+    expected_tile_ids: []
+  - id: "q4"
+    text: "water body shrinkage between 2020 and 2026"
+    expected_change_type: "water_extent"
+    expected_tile_ids: []
+  - id: "q5"
+    text: "new roads cutting through forest"
+    expected_change_type: "road_development"
+    expected_tile_ids: []
+  - id: "q6"
+    text: "rapid urban expansion in Dwarka sector"
+    expected_change_type: "construction"
+    expected_tile_ids: []
+  - id: "q7"
+    text: "find sites similar to tile bangalore_lakes/1_1"
+    expected_change_type: "any"
+    expected_tile_ids: []
+  - id: "q8"
+    text: "deforestation patches"
+    expected_change_type: "clearance"
+    expected_tile_ids: []
+  - id: "q9"
+    text: "drying lakes and reservoirs"
+    expected_change_type: "water_extent"
+    expected_tile_ids: []
+  - id: "q10"
+    text: "newly paved tracks"
+    expected_change_type: "road_development"
+    expected_tile_ids: []
+

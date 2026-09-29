@@ -1,0 +1,20 @@
+RemoteCLIP:
+  download_date: '2026-09-04T02:29:57.000000'
+  licence: MIT
+  name: RemoteCLIP-ViT-B-32
+  sha256: 4b1c8f1e9f1a238612140bbd04b6bdfed9759d57fc680079e0a0d4c1cc8f9d0c
+  source_url: https://huggingface.co/chendelong/RemoteCLIP/resolve/main/RemoteCLIP-ViT-B-32.pt
+  weight_filename: RemoteCLIP-ViT-B-32.pt
+Clay:
+  download_date: '2026-09-04T04:10:00.000000'
+  licence: Apache-2.0
+  name: Clay Foundation Model v1.5
+  sha256: ae9e05f03d526e38ea7a32ed55112e8d1219b1641029de27266158abf328f4a1
+  source_url: https://huggingface.co/made-with-clay/Clay/resolve/main/v1.5/clay-v1.5.ckpt
+  weight_filename: clay-v1.5.ckpt
+qwen2.5:3b:
+  download_date: '2026-09-04T02:29:57.000000'
+  licence: Apache-2.0
+  name: Qwen 2.5 3B (Ollama)
+  source_url: local
+

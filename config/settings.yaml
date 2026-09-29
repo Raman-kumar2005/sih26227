@@ -1,0 +1,8 @@
+confidence_weights:
+  quality: 0.15          # Weight for usable_fraction
+  registration: 0.15     # Weight for coreg_residual penalty
+  seasonal: 0.30         # Weight for z-score (embedding change)
+  radiometric: 0.05      # Weight for radiometric consistency
+  persistence: 0.35      # Weight for multi-temporal persistence (the single most important factor)
+  sar_corroboration: 0.0 # 0.0 because Sentinel-1 is unavailable
+
