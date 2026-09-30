@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup, useMap, useMapEvents } from 'react-leaflet';
-import { Layers, Crosshair, Sparkles, Calendar, ShieldAlert } from 'lucide-react';
+import { Layers, Crosshair, Sparkles, Calendar, Satellite, Moon, Map as MapIcon } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 interface MapViewProps {
@@ -12,17 +12,20 @@ type BaseLayerType = 'satellite' | 'dark' | 'standard';
 
 const BASE_LAYERS = {
   satellite: {
-    name: 'Satellite (GEOINT)',
+    name: 'Satellite GEOINT',
+    short: 'Satellite',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Esri World Imagery // Sentinel-2 MoD'
+    attribution: 'Esri World Imagery // Sentinel-2 MoD Defense'
   },
   dark: {
-    name: 'Tactical Dark Matter',
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; CartoDB Dark Matter // Air-Gapped'
+    name: 'Tactical Dark Ops',
+    short: 'Dark Ops',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Esri Canvas Dark // Air-Gapped MoD'
   },
   standard: {
-    name: 'Standard Carto',
+    name: 'Standard OSM',
+    short: 'Standard',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; OpenStreetMap contributors'
   }
@@ -69,8 +72,8 @@ function TacticalHUD({ resultsCount }: { resultsCount: number }) {
   });
 
   return (
-    <div className="absolute bottom-5 left-5 z-[400] flex items-center gap-3 pointer-events-none">
-      <div className="bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl px-3.5 py-2 shadow-2xl text-[11px] font-mono text-slate-300 flex items-center gap-3">
+    <div className="absolute bottom-5 left-5 z-[1000] flex items-center gap-3 pointer-events-none">
+      <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700/80 rounded-xl px-3.5 py-2 shadow-2xl text-[11px] font-mono text-slate-300 flex items-center gap-3">
         <div className="flex items-center gap-1.5 text-cyan-400 font-semibold">
           <Crosshair className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
           <span>GEOINT HUD</span>
@@ -95,50 +98,55 @@ function TacticalHUD({ resultsCount }: { resultsCount: number }) {
 }
 
 export function MapView({ results, onSelectResult }: MapViewProps) {
-  // Default to Tactical Dark for seamless cyber intelligence look
-  const [activeLayer, setActiveLayer] = useState<BaseLayerType>('dark');
-  const [isLayerMenuOpen, setIsLayerMenuOpen] = useState(false);
+  // Default to High-Res Satellite Imagery (zero watermark, no API key required)
+  const [activeLayer, setActiveLayer] = useState<BaseLayerType>('satellite');
 
   // Center on India
   const defaultCenter: [number, number] = [20.5937, 78.9629];
 
   return (
     <div className="h-full w-full relative z-0">
-      {/* Floating Tactical Layer Switcher */}
-      <div className="absolute top-4 right-4 z-[400]">
-        <div className="relative">
+      {/* Sleek Floating Tactical Layer Switcher */}
+      <div className="absolute top-4 right-4 z-[1000]">
+        <div className="bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-2xl shadow-2xl p-1 flex items-center gap-1">
           <button
-            onClick={() => setIsLayerMenuOpen(!isLayerMenuOpen)}
-            className="flex items-center gap-2 px-3.5 py-2 bg-slate-900/90 hover:bg-slate-800/95 backdrop-blur-md border border-slate-700 rounded-xl shadow-xl text-xs font-semibold text-slate-200 transition-all cursor-pointer hover:border-cyan-500/50"
-            title="Switch Map Imagery"
+            onClick={() => setActiveLayer('satellite')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeLayer === 'satellite'
+                ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md shadow-cyan-900/40 border border-cyan-400/40'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+            title="High-Resolution Satellite Imagery (Sentinel/Esri)"
           >
-            <Layers className="w-4 h-4 text-cyan-400" />
-            <span>Layer: <span className="text-cyan-300 font-mono">{BASE_LAYERS[activeLayer].name.split(' ')[0]}</span></span>
+            <Satellite className="w-3.5 h-3.5 text-cyan-300" />
+            <span>Satellite</span>
           </button>
 
-          {isLayerMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-xl shadow-2xl p-1.5 flex flex-col gap-1 z-50">
-              {(Object.keys(BASE_LAYERS) as BaseLayerType[]).map((layerKey) => (
-                <button
-                  key={layerKey}
-                  onClick={() => {
-                    setActiveLayer(layerKey);
-                    setIsLayerMenuOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-between ${
-                    activeLayer === layerKey
-                      ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-semibold'
-                      : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-                  }`}
-                >
-                  <span>{BASE_LAYERS[layerKey].name}</span>
-                  {activeLayer === layerKey && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
+          <button
+            onClick={() => setActiveLayer('dark')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeLayer === 'dark'
+                ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md shadow-cyan-900/40 border border-cyan-400/40'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+            title="Tactical Dark Gray Ops Map (Esri Canvas Dark)"
+          >
+            <Moon className="w-3.5 h-3.5 text-indigo-300" />
+            <span>Dark Ops</span>
+          </button>
+
+          <button
+            onClick={() => setActiveLayer('standard')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeLayer === 'standard'
+                ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md shadow-cyan-900/40 border border-cyan-400/40'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+            title="Standard Topographic / OpenStreetMap"
+          >
+            <MapIcon className="w-3.5 h-3.5 text-amber-300" />
+            <span>Standard</span>
+          </button>
         </div>
       </div>
 
@@ -182,18 +190,18 @@ export function MapView({ results, onSelectResult }: MapViewProps) {
               pathOptions={{ 
                 color: color, 
                 fillColor: color, 
-                fillOpacity: 0.35,
+                fillOpacity: 0.45,
                 weight: 2.5
               }}
               eventHandlers={{
                 click: () => onSelectResult(res),
                 mouseover: (e) => {
                   const layer = e.target;
-                  layer.setStyle({ fillOpacity: 0.6, weight: 3.5 });
+                  layer.setStyle({ fillOpacity: 0.75, weight: 3.5 });
                 },
                 mouseout: (e) => {
                   const layer = e.target;
-                  layer.setStyle({ fillOpacity: 0.35, weight: 2.5 });
+                  layer.setStyle({ fillOpacity: 0.45, weight: 2.5 });
                 }
               }}
             >
