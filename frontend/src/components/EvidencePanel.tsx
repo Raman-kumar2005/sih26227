@@ -183,6 +183,10 @@ export function EvidencePanel({ result, onClose, onFindSimilar }: EvidencePanelP
                 changeType={changeType}
                 wkt={result.bbox}
                 aoi={result.aoi}
+                tileId={result.tile_id}
+                changeId={result.change_id}
+                date={result.date}
+                earliestObservation={result.earliest_observation}
                 beforeLabel={`T1 Baseline · ${result.aoi || 'Target'}`}
                 afterLabel={`T2 Detected · ${result.date || 'Recent'}`}
               />

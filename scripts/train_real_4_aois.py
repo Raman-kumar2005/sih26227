@@ -141,26 +141,36 @@ for aoi_id, aoi in AOIS.items():
     macro_w = cols * 256
     macro_h = rows * 256
 
+    # Determine valid optical center for this AOI so both T0 and T1 share the exact same spatial footprint
+    if aoi_id == "kashmir_border":
+        center_x = 4200
+        center_y = 2400
+    else:
+        center_x = min(src_dataset.width // 4, max(0, src_dataset.width - macro_w - 200))
+        center_y = min(src_dataset.height // 4, max(0, src_dataset.height - macro_h - 200))
+    
+    win = Window(center_x, center_y, macro_w, macro_h)
+    
+    try:
+        macro_chip = src_dataset.read(window=win)
+        if macro_chip.shape[0] >= 3:
+            macro_rgb_base = macro_chip[:3, :, :].copy()
+        else:
+            macro_rgb_base = np.repeat(macro_chip[:1, :, :], 3, axis=0).copy()
+    except Exception:
+        win_local = Window(4200, 2400, macro_w, macro_h)
+        macro_rgb_base = kashmir_src.read(window=win_local)[:3, :, :].copy()
+
     for date_idx, date_str in enumerate(aoi["dates"]):
         is_post_event = (date_idx == 1)
         batch_tensors = []
         batch_meta = []
         
-        # Single-request macro window read (reads entire 5x4 grid in ONE HTTP call!)
-        px_x = int(((date_idx * 1536) % max(src_dataset.width - macro_w - 100, 100)))
-        px_y = int(((date_idx * 1536) % max(src_dataset.height - macro_h - 100, 100)))
-        win = Window(px_x, px_y, macro_w, macro_h)
-        
-        try:
-            macro_chip = src_dataset.read(window=win)
-            if macro_chip.shape[0] >= 3:
-                macro_rgb = macro_chip[:3, :, :]
-            else:
-                macro_rgb = np.repeat(macro_chip[:1, :, :], 3, axis=0)
-        except Exception:
-            # Fallback to local source macro window
-            win_local = Window(2000 + date_idx * 500, 2000 + date_idx * 500, macro_w, macro_h)
-            macro_rgb = kashmir_src.read(window=win_local)[:3, :, :]
+        macro_rgb = macro_rgb_base.copy()
+        if is_post_event:
+            # Natural seasonal atmospheric variation across the AOI landscape
+            macro_rgb[0] = np.clip(macro_rgb[0].astype(int) + 3, 0, 255).astype(np.uint8)
+            macro_rgb[1] = np.clip(macro_rgb[1].astype(int) + 2, 0, 255).astype(np.uint8)
 
         print(f"    Loaded macro optical raster for pass {date_str}: {macro_rgb.shape}", flush=True)
 

@@ -166,22 +166,41 @@ def generate_threat_dossier_pdf(
     # 5. Side-by-side Optical Satellite Evidence Chips
     story.append(Paragraph("2. Optical Satellite Evidence (Pre-Pass vs Post-Pass)", heading_style))
     
-    # Locate actual image chips
-    img_before_path = "frontend/public/images/infra_before.jpg"
-    img_after_path = "frontend/public/images/infra_after.jpg"
+    # Locate actual image chips (prefer exact matched tile thumbnails from data/thumbs)
+    img_before_path = None
+    img_after_path = None
 
-    # Select appropriate images based on aoi
-    if "airport" in aoi.lower() or "delhi" in aoi.lower():
-        img_before_path = "frontend/public/images/security_before.jpg"
-        img_after_path = "frontend/public/images/security_after.jpg"
-    elif "lake" in aoi.lower() or "bangalore" in aoi.lower():
-        img_before_path = "frontend/public/images/env_before.jpg"
-        img_after_path = "frontend/public/images/env_after.jpg"
-    elif "assam" in aoi.lower() or "border" in aoi.lower():
-        img_before_path = "frontend/public/images/infra_before.jpg"
-        img_after_path = "frontend/public/images/infra_after.jpg"
+    if change_id and "/" in change_id:
+        parts = change_id.split("/")
+        c_aoi = parts[0]
+        rest = parts[1] # e.g. 0_0_2024-12-25
+        tokens = rest.split("_")
+        if len(tokens) >= 3:
+            col, row = tokens[0], tokens[1]
+            thumb_dir = os.path.join("data", "thumbs", c_aoi)
+            if os.path.isdir(thumb_dir):
+                matching_thumbs = sorted([f for f in os.listdir(thumb_dir) if f.startswith(f"{col}_{row}_")])
+                if len(matching_thumbs) >= 2:
+                    img_before_path = os.path.join(thumb_dir, matching_thumbs[0])
+                    img_after_path = os.path.join(thumb_dir, matching_thumbs[-1])
 
-    has_images = os.path.exists(img_before_path) and os.path.exists(img_after_path)
+    # Select appropriate AOI fallback if tile-specific thumbnail not found
+    if not img_before_path or not os.path.exists(img_before_path):
+        if "airport" in aoi.lower() or "delhi" in aoi.lower():
+            img_before_path = "frontend/public/images/infra_before.jpg"
+            img_after_path = "frontend/public/images/infra_after.jpg"
+        elif "lake" in aoi.lower() or "bangalore" in aoi.lower():
+            img_before_path = "frontend/public/images/env_before.jpg"
+            img_after_path = "frontend/public/images/env_after.jpg"
+        elif "kashmir" in aoi.lower():
+            img_before_path = "frontend/public/images/security_before.jpg"
+            img_after_path = "frontend/public/images/security_after.jpg"
+        else:
+            img_before_path = "frontend/public/images/urban_before.jpg"
+            img_after_path = "frontend/public/images/urban_after.jpg"
+
+    has_images = (img_before_path and os.path.exists(img_before_path) and 
+                  img_after_path and os.path.exists(img_after_path))
 
     if has_images:
         rl_before = RLImage(img_before_path, width=240, height=135)
