@@ -1,21 +1,27 @@
 bangalore_lakes:
-  description: "Bangalore Lakes (Bellandur/Varthur)"
+  description: "Bangalore Lakes (Bellandur/Varthur Urban Basin)"
   bbox_wgs84: [77.62, 12.90, 77.75, 12.98]
   target_crs: "EPSG:32643"
   date_window: ["2023-01-01", "2024-12-31"]
   sensors: ["sentinel-2-l2a"]
 
 delhi_airport:
-  description: "Delhi Airport / Dwarka"
+  description: "Delhi IGI Airport / Aerocity & Runway Infrastructure"
   bbox_wgs84: [76.99, 28.53, 77.13, 28.60]
   target_crs: "EPSG:32643"
   date_window: ["2023-01-01", "2024-12-31"]
   sensors: ["sentinel-2-l2a"]
 
 assam_border:
-  description: "Assam/Arunachal Border (Tawang Sector)"
+  description: "Assam/Arunachal Border (Tawang Defense Sector)"
   bbox_wgs84: [91.80, 27.50, 91.95, 27.65]
   target_crs: "EPSG:32646"
   date_window: ["2023-01-01", "2024-12-31"]
   sensors: ["sentinel-2-l2a"]
 
+kashmir_border:
+  description: "Kashmir Line of Control / Uri-Baramulla Defense Corridor"
+  bbox_wgs84: [74.05, 34.15, 74.35, 34.40]
+  target_crs: "EPSG:32643"
+  date_window: ["2023-01-01", "2024-12-31"]
+  sensors: ["sentinel-2-l2a"]

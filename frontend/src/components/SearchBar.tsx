@@ -76,10 +76,11 @@ export function SearchBar({ onSearch, isLoading }: SearchBarProps) {
   };
 
   const exampleQueries = [
-    { label: "🏗️ Infra", text: "newly built structures near a river", type: "construction" },
-    { label: "🚜 Convoys", text: "large vehicle concentrations on open ground", type: "military" },
+    { label: "🏗️ Infra", text: "newly built structures near a river in Delhi", type: "construction" },
+    { label: "🏔️ Kashmir LOC", text: "tactical road construction near Uri in Kashmir", type: "military" },
     { label: "💧 Water", text: "lake extent shrinking in Bangalore", type: "water" },
-    { label: "🌲 Clearance", text: "vegetation clearance in Assam border", type: "clearance" }
+    { label: "🌲 Clearance", text: "vegetation clearance in Assam border", type: "clearance" },
+    { label: "🚜 Convoys", text: "large vehicle concentrations on open ground", type: "military" }
   ];
 
   return (

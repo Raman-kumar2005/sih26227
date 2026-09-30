@@ -22,20 +22,23 @@ class RetrievalService:
         except:
             self.changes_df = pd.DataFrame()
             
-    # Geographic keyword → AOI routing for demo (no real geocoder needed)
+    # Geographic keyword → AOI routing for all 4 Strategic Defense AOIs
     _GEO_KEYWORDS = {
         "bangalore_lakes": [
             "bangalore", "bengaluru", "south", "lake", "lal bagh",
-            "mysore", "karnataka", "yelahanka"
+            "mysore", "karnataka", "yelahanka", "bellandur", "varthur"
         ],
         "delhi_airport": [
-            "delhi", "dwarka", "airport", "north", "eastern",
-            "himachal", "jammu", "kashmir",
+            "delhi", "dwarka", "airport", "aerocity", "runway",
             "punjab", "haryana", "ncr", "gurgaon", "noida"
         ],
         "assam_border": [
             "assam", "arunachal", "arunchal", "border", "tawang",
-            "northeast", "brahmaputra", "tezpur"
+            "northeast", "brahmaputra", "tezpur", "kameng"
+        ],
+        "kashmir_border": [
+            "kashmir", "loc", "uri", "baramulla", "srinagar", "kupwara",
+            "line of control", "northern border", "pir panjal", "ladakh"
         ]
     }
 
