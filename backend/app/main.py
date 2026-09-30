@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -17,10 +17,12 @@ from backend.app.services.audit import (
     record_audit_event, list_audit_logs, get_audit_stats,
     generate_defense_geojson_export, generate_mission_summary_export
 )
+from backend.app.services.report_generator import generate_threat_dossier_pdf
 import secrets
 from typing import Optional
 
 conn = get_sqlite()
+
 
 
 
@@ -554,6 +556,68 @@ def export_mission_summary():
         details={"mission": summary.get("mission_code")}
     )
     return summary
+
+# ====================================================================
+# Official Defense PDF Dossier Report Endpoints (Pillar 4)
+# ====================================================================
+
+class DossierGenerateRequest(BaseModel):
+    change_id: str
+    aoi: str = "delhi_airport"
+    confidence: float = 0.88
+    change_type: str = "Infrastructure Development / Surface Alteration"
+    area_sqm: float = 48500.0
+    analyst_name: str = "Dilip Raman"
+    clearance: str = "TOP SECRET // LEVEL 4"
+
+@app.get("/api/reports/pdf/{change_id:path}")
+def download_change_dossier_pdf(change_id: str, aoi: str = "delhi_airport", confidence: float = 0.88):
+    """
+    Generates and streams an Official Defense Intelligence PDF Dossier
+    for the specified change alert.
+    """
+    clean_id = change_id.replace("/", "_").replace(":", "_").replace(" ", "_")
+    pdf_bytes = generate_threat_dossier_pdf(
+        change_id=change_id,
+        aoi=aoi,
+        confidence=confidence
+    )
+    # Log report generation to audit trail
+    record_audit_event(
+        user_email="analyst@changetracker.gov.in",
+        clearance_level="TOP SECRET // LEVEL 4",
+        action="GENERATE_PDF_DOSSIER",
+        endpoint=f"/api/reports/pdf/{clean_id}",
+        details={"change_id": change_id, "aoi": aoi, "confidence": confidence}
+    )
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="Defense_Threat_Dossier_{clean_id}.pdf"'
+        }
+    )
+
+@app.post("/api/reports/generate-pdf")
+def generate_custom_dossier_pdf(req: DossierGenerateRequest):
+    clean_id = req.change_id.replace("/", "_").replace(":", "_").replace(" ", "_")
+    pdf_bytes = generate_threat_dossier_pdf(
+        change_id=req.change_id,
+        aoi=req.aoi,
+        confidence=req.confidence,
+        change_type=req.change_type,
+        area_sqm=req.area_sqm,
+        analyst_name=req.analyst_name,
+        clearance=req.clearance
+    )
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="Defense_Dossier_{clean_id}.pdf"'
+        }
+    )
+
 
 
 

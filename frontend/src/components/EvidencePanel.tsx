@@ -86,9 +86,31 @@ export function EvidencePanel({ result, onClose, onFindSimilar }: EvidencePanelP
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `export_${result.change_id}.${ext}`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPdfDossier = async () => {
+    try {
+      const cleanId = encodeURIComponent(result.change_id || result.id || 'target_change');
+      const aoiParam = encodeURIComponent(result.aoi || 'delhi_airport');
+      const confParam = result.confidence || 0.88;
+      const url = `http://127.0.0.1:8000/api/reports/pdf/${cleanId}?aoi=${aoiParam}&confidence=${confParam}`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const blob = await res.blob();
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `DEFENSE_DOSSIER_${(result.aoi || 'TARGET').toUpperCase()}_${new Date().toISOString().slice(0, 10)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
+      }
+    } catch (err) {
+      console.error("Failed to download PDF dossier", err);
+    }
   };
 
   return (
@@ -161,32 +183,42 @@ export function EvidencePanel({ result, onClose, onFindSimilar }: EvidencePanelP
             </div>
         </div>
 
-        {/* Analyst Actions */}
-        <div className="border-t pt-5 pb-2">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Analyst Actions</h3>
-            <div className="grid grid-cols-2 gap-3 mb-3">
-                <button 
-                  onClick={() => handleFeedback('approve')}
-                  className={`py-2 px-3 flex items-center justify-center gap-2 rounded text-sm font-medium transition-colors ${feedbackState === 'approve' ? 'bg-green-600 text-white' : 'bg-gray-100 hover:bg-green-100 text-green-700'}`}
+            {/* Analyst Actions */}
+            <div className="border-t pt-5 pb-2">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Analyst Actions</h3>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                    <button 
+                      onClick={() => handleFeedback('approve')}
+                      className={`py-2 px-3 flex items-center justify-center gap-2 rounded text-sm font-medium transition-colors ${feedbackState === 'approve' ? 'bg-green-600 text-white' : 'bg-gray-100 hover:bg-green-100 text-green-700'}`}
+                    >
+                      <Check className="w-4 h-4" /> Approve
+                    </button>
+                    <button 
+                      onClick={() => handleFeedback('reject')}
+                      className={`py-2 px-3 flex items-center justify-center gap-2 rounded text-sm font-medium transition-colors ${feedbackState === 'reject' ? 'bg-red-600 text-white' : 'bg-gray-100 hover:bg-red-100 text-red-700'}`}
+                    >
+                      <ThumbsDown className="w-4 h-4" /> Reject False Alarm
+                    </button>
+                </div>
+
+                {/* Defense Intelligence PDF Dossier */}
+                <button
+                  onClick={handleDownloadPdfDossier}
+                  className="w-full mb-3 py-2.5 px-3 flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-red-900 to-slate-900 hover:from-red-800 hover:to-slate-800 text-white text-xs uppercase tracking-wider font-semibold shadow border border-red-700/50 transition-all hover:shadow-md"
+                  title="Generate Official MoD/ISRO Classified Defense Intelligence PDF Dossier"
                 >
-                  <Check className="w-4 h-4" /> Approve
+                  <FileText className="w-4 h-4 text-red-400" /> Download Defense PDF Dossier
                 </button>
-                <button 
-                  onClick={() => handleFeedback('reject')}
-                  className={`py-2 px-3 flex items-center justify-center gap-2 rounded text-sm font-medium transition-colors ${feedbackState === 'reject' ? 'bg-red-600 text-white' : 'bg-gray-100 hover:bg-red-100 text-red-700'}`}
-                >
-                  <ThumbsDown className="w-4 h-4" /> Reject False Alarm
-                </button>
+
+                <div className="grid grid-cols-2 gap-3">
+                    <button onClick={() => exportData('csv')} className="py-2 px-3 flex items-center justify-center gap-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium">
+                      <Download className="w-4 h-4" /> Export CSV
+                    </button>
+                    <button onClick={() => exportData('geojson')} className="py-2 px-3 flex items-center justify-center gap-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium">
+                      <Download className="w-4 h-4" /> Export GeoJSON
+                    </button>
+                </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => exportData('csv')} className="py-2 px-3 flex items-center justify-center gap-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium">
-                  <Download className="w-4 h-4" /> Export CSV
-                </button>
-                <button onClick={() => exportData('geojson')} className="py-2 px-3 flex items-center justify-center gap-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium">
-                  <Download className="w-4 h-4" /> Export GeoJSON
-                </button>
-            </div>
-        </div>
 
         <div className="border-t pt-5 pb-8">
             <button 
