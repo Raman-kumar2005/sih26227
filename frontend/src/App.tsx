@@ -399,6 +399,7 @@ function App() {
         <div className="flex-1 h-full relative z-0">
           <MapView 
             results={filteredResults} 
+            selectedResult={selectedResult}
             onSelectResult={setSelectedResult} 
             isHeaderCollapsed={isHeaderCollapsed}
             onToggleHeader={() => setIsHeaderCollapsed(!isHeaderCollapsed)}

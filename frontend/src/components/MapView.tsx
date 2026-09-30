@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 interface MapViewProps {
   results: any[];
   onSelectResult: (result: any) => void;
+  selectedResult?: any;
   isHeaderCollapsed?: boolean;
   onToggleHeader?: () => void;
 }
@@ -33,28 +34,69 @@ const BASE_LAYERS = {
   }
 };
 
-// Component to fly to results bounds
-function MapBounds({ results }: { results: any[] }) {
+// Component to control map framing and selection with normal tactical zoom (level 10-11, never 14+)
+function TacticalMapController({ results, selectedResult }: { results: any[]; selectedResult?: any }) {
   const map = useMap();
+  
+  // 1. Fit all results together comfortably at normal tactical overview zoom (maxZoom: 11)
   useEffect(() => {
     if (results.length > 0) {
-      const first = results[0];
-      if (first.bbox) {
+      const allPoints: [number, number][] = [];
+      results.forEach(res => {
+        if (!res.bbox) return;
         try {
-          const coordsStr = first.bbox.replace('POLYGON((', '').replace('))', '');
-          const points = coordsStr.split(',').map((p: string) => {
+          const coordsStr = res.bbox.replace('POLYGON((', '').replace('))', '');
+          coordsStr.split(',').forEach((p: string) => {
             const [lon, lat] = p.trim().split(' ').map(Number);
-            return [lat, lon];
+            if (!isNaN(lat) && !isNaN(lon)) {
+              allPoints.push([lat, lon]);
+            }
           });
-          if (points.length > 0) {
-            map.flyTo(points[0] as [number, number], 14, { duration: 1.5 });
-          }
         } catch (e) {
-          console.error("Failed to parse WKT for flyTo", e);
+          // ignore parsing error
         }
+      });
+
+      if (allPoints.length > 0) {
+        const lats = allPoints.map(p => p[0]);
+        const lngs = allPoints.map(p => p[1]);
+        const minLat = Math.min(...lats);
+        const maxLat = Math.max(...lats);
+        const minLng = Math.min(...lngs);
+        const maxLng = Math.max(...lngs);
+        
+        map.fitBounds([[minLat, minLng], [maxLat, maxLng]], {
+          padding: [50, 50],
+          maxZoom: 11, // Normal overview zoom (never too close!)
+          duration: 1.2
+        });
       }
     }
   }, [results, map]);
+
+  // 2. When a highlighted area is selected, center gently at normal zoom 11 (never 14+)
+  useEffect(() => {
+    if (selectedResult && selectedResult.bbox) {
+      try {
+        const coordsStr = selectedResult.bbox.replace('POLYGON((', '').replace('))', '');
+        const points: [number, number][] = coordsStr.split(',').map((p: string) => {
+          const [lon, lat] = p.trim().split(' ').map(Number);
+          return [lat, lon];
+        });
+        if (points.length > 0) {
+          const centerLat = points.reduce((acc: number, p: [number, number]) => acc + p[0], 0) / points.length;
+          const centerLon = points.reduce((acc: number, p: [number, number]) => acc + p[1], 0) / points.length;
+          
+          const currentZoom = map.getZoom();
+          const targetZoom = (currentZoom >= 10 && currentZoom <= 11.5) ? currentZoom : 11;
+          
+          map.flyTo([centerLat, centerLon], targetZoom, { duration: 0.8 });
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, [selectedResult, map]);
   
   return null;
 }
@@ -99,7 +141,7 @@ function TacticalHUD({ resultsCount }: { resultsCount: number }) {
   );
 }
 
-export function MapView({ results, onSelectResult, isHeaderCollapsed, onToggleHeader }: MapViewProps) {
+export function MapView({ results, onSelectResult, selectedResult, isHeaderCollapsed, onToggleHeader }: MapViewProps) {
   // Default to High-Res Satellite Imagery (zero watermark, no API key required)
   const [activeLayer, setActiveLayer] = useState<BaseLayerType>('satellite');
 
@@ -200,29 +242,35 @@ export function MapView({ results, onSelectResult, isHeaderCollapsed, onToggleHe
               ? '#f59e0b' // moderate: amber
               : '#38bdf8'; // low/informational: cyan
 
+          const isSelected = selectedResult && (
+            selectedResult.change_id === res.change_id || 
+            selectedResult.id === res.id || 
+            (selectedResult.tile_id && selectedResult.tile_id === res.tile_id)
+          );
+
           return (
             <Polygon 
               key={res.change_id || idx} 
               positions={positions} 
               pathOptions={{ 
-                color: color, 
+                color: isSelected ? '#ffffff' : color, 
                 fillColor: color, 
-                fillOpacity: 0.45,
-                weight: 2.5
+                fillOpacity: isSelected ? 0.70 : 0.45,
+                weight: isSelected ? 3.5 : 2.5
               }}
               eventHandlers={{
                 click: () => onSelectResult(res),
                 mouseover: (e) => {
                   const layer = e.target;
-                  layer.setStyle({ fillOpacity: 0.75, weight: 3.5 });
+                  layer.setStyle({ fillOpacity: 0.75, weight: isSelected ? 4 : 3.5 });
                 },
                 mouseout: (e) => {
                   const layer = e.target;
-                  layer.setStyle({ fillOpacity: 0.45, weight: 2.5 });
+                  layer.setStyle({ fillOpacity: isSelected ? 0.70 : 0.45, weight: isSelected ? 3.5 : 2.5 });
                 }
               }}
             >
-              <Popup>
+              <Popup autoPan={false}>
                 <div className="p-3 w-64 text-slate-100 font-sans">
                   {/* Category Header */}
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-700/60 mb-2">
@@ -280,7 +328,7 @@ export function MapView({ results, onSelectResult, isHeaderCollapsed, onToggleHe
           );
         })}
         
-        <MapBounds results={results} />
+        <TacticalMapController results={results} selectedResult={selectedResult} />
         <TacticalHUD resultsCount={results.length} />
       </MapContainer>
     </div>
