@@ -12,6 +12,8 @@ interface ImageSwipeProps {
   changeId?: string;
   date?: string;
   earliestObservation?: string;
+  thumbT0?: string;
+  thumbT1?: string;
 }
 
 // Convert lat/lon to Mercator tile XYZ
@@ -40,7 +42,9 @@ export function ImageSwipe({
   tileId = '',
   changeId = '',
   date = '',
-  earliestObservation = ''
+  earliestObservation = '',
+  thumbT0 = '',
+  thumbT1 = ''
 }: ImageSwipeProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -71,8 +75,12 @@ export function ImageSwipe({
   const localT1 = date || (aoi.includes("kashmir") ? "2024-12-25" : aoi.includes("bangalore") ? "2024-04-27" : aoi.includes("assam") ? "2024-12-16" : "2024-12-19");
 
   // Real Local Sentinel-2 sensor chip pair
-  const localBefore = `http://127.0.0.1:8000/data/thumbs/${aoi}/${colRow}_${localT0}.jpg`;
-  const localAfter = `http://127.0.0.1:8000/data/thumbs/${aoi}/${colRow}_${localT1}.jpg`;
+  const localBefore = thumbT0 
+    ? (thumbT0.startsWith("http") ? thumbT0 : `http://127.0.0.1:8000${thumbT0}`)
+    : `http://127.0.0.1:8000/data/thumbs/${aoi}/${colRow}_${localT0}.jpg`;
+  const localAfter = thumbT1
+    ? (thumbT1.startsWith("http") ? thumbT1 : `http://127.0.0.1:8000${thumbT1}`)
+    : `http://127.0.0.1:8000/data/thumbs/${aoi}/${colRow}_${localT1}.jpg`;
   const fallbackBefore = `/images/${aoiKey}_before.jpg`;
   const fallbackAfter = `/images/${aoiKey}_after.jpg`;
 

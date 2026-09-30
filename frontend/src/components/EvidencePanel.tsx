@@ -187,6 +187,8 @@ export function EvidencePanel({ result, onClose, onFindSimilar }: EvidencePanelP
                 changeId={result.change_id}
                 date={result.date}
                 earliestObservation={result.earliest_observation}
+                thumbT0={result.thumb_t0}
+                thumbT1={result.thumb_t1}
                 beforeLabel={`T1 Baseline · ${result.aoi || 'Target'}`}
                 afterLabel={`T2 Detected · ${result.date || 'Recent'}`}
               />

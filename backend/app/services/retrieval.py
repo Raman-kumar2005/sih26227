@@ -206,28 +206,42 @@ class RetrievalService:
         # Format output
         output = []
         for _, row in results.iterrows():
+            aoi_val = str(row.get('aoi', 'unknown'))
+            t_id = str(row.get('tile_id', '0_0'))
+            col_row = t_id.split('/')[1] if '/' in t_id else t_id
             
-            # R2: Earliest Observation Estimation
-            # Simulate fetching historical sequence for this tile
-            import datetime
-            obs_date = row['date'].date()
-            # If the change is highly confident, we estimate it could have been faintly visible earlier
-            days_offset = int((1.0 - row['confidence']) * 30) # up to 30 days earlier
-            earliest_obs = obs_date - datetime.timedelta(days=days_offset)
+            raw_earliest = row.get('earliest_observation', '2023-01-15')
+            if hasattr(raw_earliest, 'strftime'):
+                t0_str = raw_earliest.strftime("%Y-%m-%d")
+            else:
+                t0_str = str(raw_earliest).split()[0]
+                
+            raw_date = row.get('date', '2024-12-16')
+            if hasattr(raw_date, 'strftime'):
+                t1_str = raw_date.strftime("%Y-%m-%d")
+            else:
+                t1_str = str(raw_date).split()[0]
+                
+            thumb_t0 = f"/data/thumbs/{aoi_val}/{col_row}_{t0_str}.jpg"
+            thumb_t1 = f"/data/thumbs/{aoi_val}/{col_row}_{t1_str}.jpg"
             
+            actual_change_type = row.get('change_type') or (query.change_type if query.change_type != "any" else "detected_change")
+
             output.append({
-                "id": row['change_id'], # Using id instead of change_id for consistency
+                "id": row['change_id'],
                 "change_id": row['change_id'],
                 "tile_id": row['tile_id'],
-                "aoi": row['aoi'],
-                "date": str(obs_date),
-                "earliest_observation": str(earliest_obs), # R2 Requirement
-                "confidence": row['confidence'],
-                "final_score": round(row['final_score'], 3),
-                "semantic_sim": round(row['semantic_sim'], 3),
-                "change_type": query.change_type if query.change_type != "any" else "detected_change",
-                "bbox": row['geometry'], # Geometry is WKT in our dummy
-                "breakdown": row['confidence_breakdown']
+                "aoi": aoi_val,
+                "date": t1_str,
+                "earliest_observation": t0_str,
+                "thumb_t0": thumb_t0,
+                "thumb_t1": thumb_t1,
+                "confidence": float(row['confidence']),
+                "final_score": round(float(row['final_score']), 3),
+                "semantic_sim": round(float(row['semantic_sim']), 3),
+                "change_type": actual_change_type,
+                "bbox": str(row['geometry']),
+                "breakdown": row.get('confidence_breakdown', {})
             })
             
         return {
