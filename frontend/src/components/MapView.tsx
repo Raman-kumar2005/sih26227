@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Popup, useMap, useMapEvents } from 'react-leaflet';
-import { Layers, Crosshair, Sparkles, Calendar, Satellite, Moon, Map as MapIcon } from 'lucide-react';
+import { Layers, Crosshair, Sparkles, Calendar, Satellite, Moon, Map as MapIcon, Maximize2, Minimize2 } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 interface MapViewProps {
   results: any[];
   onSelectResult: (result: any) => void;
+  isHeaderCollapsed?: boolean;
+  onToggleHeader?: () => void;
 }
 
 type BaseLayerType = 'satellite' | 'dark' | 'standard';
@@ -97,7 +99,7 @@ function TacticalHUD({ resultsCount }: { resultsCount: number }) {
   );
 }
 
-export function MapView({ results, onSelectResult }: MapViewProps) {
+export function MapView({ results, onSelectResult, isHeaderCollapsed, onToggleHeader }: MapViewProps) {
   // Default to High-Res Satellite Imagery (zero watermark, no API key required)
   const [activeLayer, setActiveLayer] = useState<BaseLayerType>('satellite');
 
@@ -106,8 +108,23 @@ export function MapView({ results, onSelectResult }: MapViewProps) {
 
   return (
     <div className="h-full w-full relative z-0">
-      {/* Sleek Floating Tactical Layer Switcher */}
-      <div className="absolute top-4 right-4 z-[1000]">
+      {/* Sleek Floating Tactical Layer Switcher & Fullscreen Controls */}
+      <div className="absolute top-4 right-4 z-[1000] flex items-center gap-2">
+        {onToggleHeader && (
+          <button
+            onClick={onToggleHeader}
+            className={`px-3 py-1.5 backdrop-blur-xl border rounded-2xl shadow-2xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              isHeaderCollapsed 
+                ? 'bg-cyan-600 text-white border-cyan-400 shadow-cyan-900/40 hover:bg-cyan-500' 
+                : 'bg-slate-900/95 hover:bg-slate-800 text-slate-200 hover:text-cyan-300 border-slate-700/90'
+            }`}
+            title={isHeaderCollapsed ? "Restore Full Navigation Bar" : "Maximize Map Area (Collapse Header)"}
+          >
+            {isHeaderCollapsed ? <Minimize2 className="w-3.5 h-3.5 text-white" /> : <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />}
+            <span className="hidden sm:inline">{isHeaderCollapsed ? "Restore Bar" : "Full Map"}</span>
+          </button>
+        )}
+
         <div className="bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-2xl shadow-2xl p-1 flex items-center gap-1">
           <button
             onClick={() => setActiveLayer('satellite')}
