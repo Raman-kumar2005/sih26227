@@ -5,7 +5,8 @@ import { EvidencePanel } from './components/EvidencePanel';
 import { Login } from './components/Login';
 import { Landing } from './components/Landing';
 import { IngestModal } from './components/IngestModal';
-import { Satellite } from 'lucide-react';
+import { AuditModal } from './components/AuditModal';
+import { Satellite, ShieldCheck } from 'lucide-react';
 import './index.css';
 
 function App() {
@@ -15,10 +16,12 @@ function App() {
   const [message, setMessage] = useState('');
   const [threshold, setThreshold] = useState(0.5);
   const [isIngestOpen, setIsIngestOpen] = useState(false);
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
   
   // Timeline controls state
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
 
 
   useEffect(() => {
@@ -211,6 +214,17 @@ function App() {
                     <span>Ingest Pass</span>
                   </button>
 
+                  {/* Defense Clearance & Audit Trail Button */}
+                  <button
+                    onClick={() => setIsAuditOpen(true)}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-600/30 cursor-pointer border border-emerald-400/40 hover:scale-[1.02]"
+                    title="View MoD Air-Gap Audit Logs & Export Dossiers"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-emerald-200" />
+                    <span>Audit & Clearance</span>
+                  </button>
+
+
 
                   {/* Active Analyst Profile Badge */}
                   {currentUser && (
@@ -279,6 +293,13 @@ function App() {
         isOpen={isIngestOpen} 
         onClose={() => setIsIngestOpen(false)} 
         onViewChanges={(aoi) => handleSearch(aoi)} 
+      />
+
+      {/* Defense Clearance & Audit Trail Modal */}
+      <AuditModal 
+        isOpen={isAuditOpen} 
+        onClose={() => setIsAuditOpen(false)} 
+        currentUser={currentUser} 
       />
     </div>
   );

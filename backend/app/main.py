@@ -13,10 +13,15 @@ from backend.app.services.retrieval import RetrievalService
 from backend.app.db.connection import get_sqlite, hash_password, is_postgis, get_db_status
 from backend.app.db.spatial import query_changes_spatial, get_spatial_summary
 from backend.app.services.ingestion_queue import submit_ingest_job, get_job, list_recent_jobs, cancel_job
+from backend.app.services.audit import (
+    record_audit_event, list_audit_logs, get_audit_stats,
+    generate_defense_geojson_export, generate_mission_summary_export
+)
 import secrets
 from typing import Optional
 
 conn = get_sqlite()
+
 
 
 
@@ -489,5 +494,66 @@ def get_sample_scenes():
             }
         ]
     }
+
+# ====================================================================
+# Defense Clearance & Analyst Audit Trail Endpoints (Pillar 3)
+# ====================================================================
+
+class AuditLogRequest(BaseModel):
+    user_email: str
+    clearance_level: str = "CONFIDENTIAL // LEVEL 2"
+    action: str
+    endpoint: str = "/api/workspace"
+    details: Optional[dict] = None
+
+@app.get("/api/audit/logs")
+def get_audit_trail(limit: int = 50, user_email: Optional[str] = None, action: Optional[str] = None):
+    """Returns paginated tamper-evident audit logs."""
+    return {"logs": list_audit_logs(limit=limit, user_email=user_email, action=action)}
+
+@app.get("/api/audit/stats")
+def get_audit_statistics():
+    """Returns security audit aggregates."""
+    return {"stats": get_audit_stats()}
+
+@app.post("/api/audit/log")
+def create_audit_entry(req: AuditLogRequest):
+    """Allows manual recording of client-side operational events."""
+    event_id = record_audit_event(
+        user_email=req.user_email,
+        clearance_level=req.clearance_level,
+        action=req.action,
+        endpoint=req.endpoint,
+        details=req.details or {}
+    )
+    return {"status": "success", "event_id": event_id}
+
+@app.get("/api/audit/export/geojson")
+def export_defense_geojson():
+    """Exports all verified change detections as an official Defense Intelligence GeoJSON."""
+    data = generate_defense_geojson_export()
+    # Log export event
+    record_audit_event(
+        user_email="analyst@changetracker.gov.in",
+        clearance_level="TOP SECRET // LEVEL 4",
+        action="EXPORT_DEFENSE_GEOJSON",
+        endpoint="/api/audit/export/geojson",
+        details={"total_features": len(data.get("features", []))}
+    )
+    return data
+
+@app.get("/api/audit/export/summary")
+def export_mission_summary():
+    """Exports structured Mission Summary Intelligence Dossier."""
+    summary = generate_mission_summary_export()
+    record_audit_event(
+        user_email="commander@isro.gov.in",
+        clearance_level="LEVEL 5 ORBITAL",
+        action="EXPORT_MISSION_SUMMARY",
+        endpoint="/api/audit/export/summary",
+        details={"mission": summary.get("mission_code")}
+    )
+    return summary
+
 
 
