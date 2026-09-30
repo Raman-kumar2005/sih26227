@@ -8,6 +8,8 @@
 *.incomplete
 models/weights/*
 !models/weights/.gitkeep
+!models/weights/training_metrics.json
+!models/weights/training_loss_curve.png
 .cache/
 .env
 __pycache__/
