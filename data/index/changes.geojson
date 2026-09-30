@@ -35,7 +35,7 @@
         "tile_id": "delhi_airport/0_0",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.940418741663744,
+        "confidence": 0.7060311200909826,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -74,7 +74,7 @@
         "tile_id": "delhi_airport/1_0",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9675333087755367,
+        "confidence": 0.7363376654672539,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -113,7 +113,7 @@
         "tile_id": "delhi_airport/2_0",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.8776979313545153,
+        "confidence": 0.725848529877113,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -152,7 +152,7 @@
         "tile_id": "delhi_airport/3_0",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.8916274745597164,
+        "confidence": 0.6972926935924704,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -191,7 +191,7 @@
         "tile_id": "delhi_airport/4_0",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9129876325695987,
+        "confidence": 0.7689828856771653,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -230,7 +230,7 @@
         "tile_id": "delhi_airport/0_1",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.967133925604348,
+        "confidence": 0.7300214131866097,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -269,7 +269,7 @@
         "tile_id": "delhi_airport/1_1",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9575072312438674,
+        "confidence": 0.7609778464331179,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -308,7 +308,7 @@
         "tile_id": "delhi_airport/2_1",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9610573410731393,
+        "confidence": 0.7194112617701605,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -347,7 +347,7 @@
         "tile_id": "delhi_airport/3_1",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9492612596705696,
+        "confidence": 0.7210220314761397,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -386,7 +386,7 @@
         "tile_id": "delhi_airport/4_1",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9589714478133885,
+        "confidence": 0.7199850553126282,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -425,7 +425,7 @@
         "tile_id": "delhi_airport/0_2",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9509294684056497,
+        "confidence": 0.7219986237465019,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -464,7 +464,7 @@
         "tile_id": "delhi_airport/1_2",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9689737720719699,
+        "confidence": 0.7379800055582808,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -503,7 +503,7 @@
         "tile_id": "delhi_airport/2_2",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9460650108639679,
+        "confidence": 0.7671011515293183,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -542,7 +542,7 @@
         "tile_id": "delhi_airport/3_2",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9568327720553885,
+        "confidence": 0.7005808728705263,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -581,7 +581,7 @@
         "tile_id": "delhi_airport/4_2",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9672326974025491,
+        "confidence": 0.7404492300725176,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -620,7 +620,7 @@
         "tile_id": "delhi_airport/0_3",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.8634516856152872,
+        "confidence": 0.7403284915926668,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -659,7 +659,7 @@
         "tile_id": "delhi_airport/1_3",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.7737551753152336,
+        "confidence": 0.7544077744925598,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -698,7 +698,7 @@
         "tile_id": "delhi_airport/2_3",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9617802356614309,
+        "confidence": 0.7566395594211667,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -737,7 +737,7 @@
         "tile_id": "delhi_airport/3_3",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9535455526959781,
+        "confidence": 0.6853340671644139,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -776,7 +776,7 @@
         "tile_id": "delhi_airport/4_3",
         "aoi": "delhi_airport",
         "change_type": "construction",
-        "confidence": 0.9589720217068408,
+        "confidence": 0.7363456105574006,
         "date": "2024-12-19",
         "baseline": "2023-03-04"
       }
@@ -815,7 +815,7 @@
         "tile_id": "bangalore_lakes/0_0",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9522793033025714,
+        "confidence": 0.7680643567378499,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -854,7 +854,7 @@
         "tile_id": "bangalore_lakes/1_0",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9536489095270926,
+        "confidence": 0.8800349536256381,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -893,7 +893,7 @@
         "tile_id": "bangalore_lakes/2_0",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9581733008092073,
+        "confidence": 0.868813237914377,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -932,7 +932,7 @@
         "tile_id": "bangalore_lakes/3_0",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9617544554910181,
+        "confidence": 0.8977042474354212,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -971,7 +971,7 @@
         "tile_id": "bangalore_lakes/4_0",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9568226192297822,
+        "confidence": 0.8741828794101926,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1010,7 +1010,7 @@
         "tile_id": "bangalore_lakes/0_1",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9668869001122113,
+        "confidence": 0.8674198334352273,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1049,7 +1049,7 @@
         "tile_id": "bangalore_lakes/1_1",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.956141360953222,
+        "confidence": 0.8878921369132877,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1088,7 +1088,7 @@
         "tile_id": "bangalore_lakes/2_1",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9567721971857599,
+        "confidence": 0.9026745614678165,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1127,7 +1127,7 @@
         "tile_id": "bangalore_lakes/3_1",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9514981837557728,
+        "confidence": 0.9249549131353636,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1166,7 +1166,7 @@
         "tile_id": "bangalore_lakes/4_1",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9615568778321981,
+        "confidence": 0.9263520040570808,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1205,7 +1205,7 @@
         "tile_id": "bangalore_lakes/0_2",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9606904731195955,
+        "confidence": 0.8599451229736724,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1244,7 +1244,7 @@
         "tile_id": "bangalore_lakes/1_2",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9727610257173942,
+        "confidence": 0.8769817413374918,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1283,7 +1283,7 @@
         "tile_id": "bangalore_lakes/2_2",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9633541227884034,
+        "confidence": 0.8739823502677814,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1322,7 +1322,7 @@
         "tile_id": "bangalore_lakes/3_2",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9420019612051914,
+        "confidence": 0.8851570982903367,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1361,7 +1361,7 @@
         "tile_id": "bangalore_lakes/4_2",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.949832498581028,
+        "confidence": 0.8906077676005704,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1400,7 +1400,7 @@
         "tile_id": "bangalore_lakes/0_3",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9476010080588614,
+        "confidence": 0.8608652938118173,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1439,7 +1439,7 @@
         "tile_id": "bangalore_lakes/1_3",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9625054947731436,
+        "confidence": 0.9049713358011413,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1478,7 +1478,7 @@
         "tile_id": "bangalore_lakes/2_3",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9263924748274363,
+        "confidence": 0.9032586100861068,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1517,7 +1517,7 @@
         "tile_id": "bangalore_lakes/3_3",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9381375947745909,
+        "confidence": 0.8683526680562371,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1556,7 +1556,7 @@
         "tile_id": "bangalore_lakes/4_3",
         "aoi": "bangalore_lakes",
         "change_type": "water_extent",
-        "confidence": 0.9519115219315748,
+        "confidence": 0.9076046524381548,
         "date": "2024-04-27",
         "baseline": "2023-01-28"
       }
@@ -1595,7 +1595,7 @@
         "tile_id": "assam_border/0_0",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9556556939123912,
+        "confidence": 0.9689546615846256,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1634,7 +1634,7 @@
         "tile_id": "assam_border/1_0",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9604509470467677,
+        "confidence": 0.963624704915358,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1673,7 +1673,7 @@
         "tile_id": "assam_border/2_0",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9656028182950032,
+        "confidence": 0.9526968549692418,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1712,7 +1712,7 @@
         "tile_id": "assam_border/3_0",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9684180392004206,
+        "confidence": 0.8990241616372813,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1751,7 +1751,7 @@
         "tile_id": "assam_border/4_0",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.964453989026678,
+        "confidence": 0.9528121329977375,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1790,7 +1790,7 @@
         "tile_id": "assam_border/0_1",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9442032532887362,
+        "confidence": 0.9529294376973311,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1829,7 +1829,7 @@
         "tile_id": "assam_border/1_1",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9562334461551755,
+        "confidence": 0.9515173831902379,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1868,7 +1868,7 @@
         "tile_id": "assam_border/2_1",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9517572604907962,
+        "confidence": 0.9597935409177761,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1907,7 +1907,7 @@
         "tile_id": "assam_border/3_1",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9372569853330694,
+        "confidence": 0.9224595962670478,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1946,7 +1946,7 @@
         "tile_id": "assam_border/4_1",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9636009064183172,
+        "confidence": 0.9607079389916005,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -1985,7 +1985,7 @@
         "tile_id": "assam_border/0_2",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9605501187486497,
+        "confidence": 0.9573181031377965,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2024,7 +2024,7 @@
         "tile_id": "assam_border/1_2",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9583798354889235,
+        "confidence": 0.9594600842081801,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2063,7 +2063,7 @@
         "tile_id": "assam_border/2_2",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9561596893290853,
+        "confidence": 0.9446992587660545,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2102,7 +2102,7 @@
         "tile_id": "assam_border/3_2",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9542159926367698,
+        "confidence": 0.9595466430977468,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2141,7 +2141,7 @@
         "tile_id": "assam_border/4_2",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9537667308638504,
+        "confidence": 0.9513008053061922,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2180,7 +2180,7 @@
         "tile_id": "assam_border/0_3",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9508716794376335,
+        "confidence": 0.9556106190130358,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2219,7 +2219,7 @@
         "tile_id": "assam_border/1_3",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9522445244221892,
+        "confidence": 0.9645165197314276,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2258,7 +2258,7 @@
         "tile_id": "assam_border/2_3",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9570624510682648,
+        "confidence": 0.9621697656094945,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2297,7 +2297,7 @@
         "tile_id": "assam_border/3_3",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9590447200620964,
+        "confidence": 0.9499978167296314,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2336,7 +2336,7 @@
         "tile_id": "assam_border/4_3",
         "aoi": "assam_border",
         "change_type": "clearance",
-        "confidence": 0.9637906799215575,
+        "confidence": 0.9461450034965512,
         "date": "2024-12-16",
         "baseline": "2023-01-15"
       }
@@ -2375,7 +2375,7 @@
         "tile_id": "kashmir_border/0_0",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9621043925997633,
+        "confidence": 0.8818727457938909,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2414,7 +2414,7 @@
         "tile_id": "kashmir_border/1_0",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9457075590278141,
+        "confidence": 0.9223140907847468,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2453,7 +2453,7 @@
         "tile_id": "kashmir_border/2_0",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.960303160893617,
+        "confidence": 0.9664566320535359,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2492,7 +2492,7 @@
         "tile_id": "kashmir_border/3_0",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9560126371079923,
+        "confidence": 0.941836825580269,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2531,7 +2531,7 @@
         "tile_id": "kashmir_border/4_0",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9630326309978869,
+        "confidence": 0.944672010850234,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2570,7 +2570,7 @@
         "tile_id": "kashmir_border/0_1",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9676820890320877,
+        "confidence": 0.904867747883031,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2609,7 +2609,7 @@
         "tile_id": "kashmir_border/1_1",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9625372146842747,
+        "confidence": 0.935376572852792,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2648,7 +2648,7 @@
         "tile_id": "kashmir_border/2_1",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9496826795354162,
+        "confidence": 0.9592909825822656,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2687,7 +2687,7 @@
         "tile_id": "kashmir_border/3_1",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9566541989151647,
+        "confidence": 0.9577506749142299,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2726,7 +2726,7 @@
         "tile_id": "kashmir_border/4_1",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9517952808060933,
+        "confidence": 0.9249467779681142,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2765,7 +2765,7 @@
         "tile_id": "kashmir_border/0_2",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9587569660612395,
+        "confidence": 0.8956727924889982,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2804,7 +2804,7 @@
         "tile_id": "kashmir_border/1_2",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9693176017987275,
+        "confidence": 0.9394968659551204,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2843,7 +2843,7 @@
         "tile_id": "kashmir_border/2_2",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9674681512469724,
+        "confidence": 0.959705030963843,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2882,7 +2882,7 @@
         "tile_id": "kashmir_border/3_2",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9661487708964294,
+        "confidence": 0.928898106090724,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2921,7 +2921,7 @@
         "tile_id": "kashmir_border/4_2",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.948128934821229,
+        "confidence": 0.9113537748094348,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2960,7 +2960,7 @@
         "tile_id": "kashmir_border/0_3",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9484908690475585,
+        "confidence": 0.959155145979445,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -2999,7 +2999,7 @@
         "tile_id": "kashmir_border/1_3",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9554648406528297,
+        "confidence": 0.7676111899606343,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -3038,7 +3038,7 @@
         "tile_id": "kashmir_border/2_3",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.954146626617993,
+        "confidence": 0.9344965404630634,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -3077,7 +3077,7 @@
         "tile_id": "kashmir_border/3_3",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.967416434120755,
+        "confidence": 0.8496335535046505,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
@@ -3116,7 +3116,7 @@
         "tile_id": "kashmir_border/4_3",
         "aoi": "kashmir_border",
         "change_type": "military_activity",
-        "confidence": 0.9659436955623305,
+        "confidence": 0.9197200106931831,
         "date": "2024-12-25",
         "baseline": "2023-09-15"
       }
